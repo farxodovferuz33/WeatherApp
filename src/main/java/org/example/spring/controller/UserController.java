@@ -2,6 +2,7 @@ package org.example.spring.controller;
 
 import jakarta.validation.Valid;
 import org.example.spring.dao.AuthUserDao;
+import org.example.spring.dao.CityDao;
 import org.example.spring.domain.AuthUser;
 import org.example.spring.dto.UserRegisterDTO;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -11,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
 
@@ -18,15 +20,25 @@ import java.io.IOException;
 public class UserController {
     private final AuthUserDao authUserDao;
     private final PasswordEncoder passwordEncoder;
+    private final CityDao cityDao;
 
-    public UserController(AuthUserDao authUserDao, PasswordEncoder passwordEncoder) {
+    public UserController(AuthUserDao authUserDao, PasswordEncoder passwordEncoder, CityDao cityDao) {
         this.authUserDao = authUserDao;
         this.passwordEncoder = passwordEncoder;
+        this.cityDao = cityDao;
     }
 
     @GetMapping("/auth/login")
     public String login() {
         return "login";
+    }
+
+    @GetMapping("/city/list")
+    public ModelAndView cityList() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("user_cities");
+        modelAndView.addObject("cities", cityDao.getAllCity());
+        return modelAndView;
     }
 
     @GetMapping("/")

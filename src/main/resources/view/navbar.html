@@ -30,9 +30,6 @@
                         <a class="nav-link active btn btn-success" th:text="#{cityList}" aria-current="page" href="/city/list">All my city</a>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link btn btn-primary mx-3" th:text="#{addCity}" href="/city/addpage">Add city</a>
-                    </li>
 
                     <li class="nav-item">
                         <a class="nav-link btn btn-primary mx-3" th:text="#{subsCity}" href="/city/subscribedCities">Subscribed cities</a>
@@ -54,7 +51,7 @@
 
                     <li class="nav-item">
                         <a sec:authorize="isAuthenticated()" th:if="${#authorization.expression('hasRole(''ADMIN'')')}"
-                           class="nav-link btn btn-primary mx-3" th:text="#{adminPage}" href="/admin/users/list">Admin page</a>
+                           class="nav-link btn btn-primary mx-3" th:text="#{adminPage}" href="/admin">Admin page</a>
                     </li>
 
 

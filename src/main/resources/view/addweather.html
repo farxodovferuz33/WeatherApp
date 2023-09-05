@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head th:replace="navbar :: head(~{::title}, ~{::link})">
+    <title>Add Weather</title>
+    <link rel="stylesheet" href="/style/todoupdate.css">
+</head>
+<body>
+
+
+<div class="container m-5">
+
+    <form th:href="@{/admin/add/weather/{id}(id=${city_id})}" method="post">
+
+        <label>
+            <input class="form-control" type="text" name="fahrenheit" placeholder="enter fahrenheit">
+        </label>
+
+        <label>
+            <input type="text" class="form-control" name="celsius" placeholder="enter celsius">
+        </label>
+
+        <label>
+            <input type="date" class="form-control" name="date" placeholder="enter date">
+        </label>
+
+        <br>
+        <div class="my-3">
+            <button class="btn btn-success" type="submit">Save</button>
+            <a href="/admin/cities/list" class="btn btn-warning">Back</a>
+        </div>
+    </form>
+</div>
+</body>
+</html>
