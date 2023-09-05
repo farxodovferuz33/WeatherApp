@@ -28,8 +28,10 @@
             <td th:text="${city.getName()}"></td>
             <td th:text="${city.getCountry()}"></td>
             <td>
-                <a href="/admin/" class="btn btn-warning">Subscribe</a>
-                <a href="/admin/" class="btn btn-warning">Weather</a>
+                <form action="/weather/subscribe" method="post">
+                    <button type="submit" class="btn btn-success">Subscribe</button>
+                </form>
+                <a th:href="@{/weather/city/{id}(id=${city.getId()})}" class="btn btn-warning">Weather</a>
             </td>
         </tr>
         </tbody>

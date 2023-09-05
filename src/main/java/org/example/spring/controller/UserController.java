@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import org.example.spring.dao.AuthUserDao;
 import org.example.spring.dao.CityDao;
 import org.example.spring.domain.AuthUser;
+import org.example.spring.domain.Weather;
 import org.example.spring.dto.UserRegisterDTO;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -11,10 +12,12 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
+import java.util.List;
 
 @Controller
 public class UserController {
@@ -69,6 +72,20 @@ public class UserController {
         return "redirect:/auth/login";
     }
 
+    @GetMapping("/weather/city/{id}")
+    public String getWeatherByCity(@PathVariable int id, Model model) {
+        List<Weather> weather = cityDao.getWeather(id);
+        model.addAttribute("weathers", weather);
+        model.addAttribute("city_id", id);
+        return "weather";
+    }
+
+
+    @PostMapping("/weather/subscribe")
+    public String subscribeCity() {
+
+        return "";
+    }
 
 //    @GetMapping("/user/image/{username:.+}")
 //    public ResponseEntity<Resource> downloadPage(@PathVariable String username) {
