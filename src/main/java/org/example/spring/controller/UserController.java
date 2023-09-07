@@ -1,6 +1,7 @@
 package org.example.spring.controller;
 
 import jakarta.validation.Valid;
+import org.example.spring.SessionUser;
 import org.example.spring.dao.AuthUserDao;
 import org.example.spring.dao.CityDao;
 import org.example.spring.domain.AuthUser;
@@ -24,11 +25,13 @@ public class UserController {
     private final AuthUserDao authUserDao;
     private final PasswordEncoder passwordEncoder;
     private final CityDao cityDao;
+    private final SessionUser sessionUser;
 
-    public UserController(AuthUserDao authUserDao, PasswordEncoder passwordEncoder, CityDao cityDao) {
+    public UserController(AuthUserDao authUserDao, PasswordEncoder passwordEncoder, CityDao cityDao, SessionUser sessionUser) {
         this.authUserDao = authUserDao;
         this.passwordEncoder = passwordEncoder;
         this.cityDao = cityDao;
+        this.sessionUser = sessionUser;
     }
 
     @GetMapping("/auth/login")
@@ -40,6 +43,8 @@ public class UserController {
     public ModelAndView cityList() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("user_cities");
+        Long id = sessionUser.getId();
+//        cityDao.checkSubscribedCity(id)
         modelAndView.addObject("cities", cityDao.getAllCity());
         return modelAndView;
     }
@@ -81,10 +86,11 @@ public class UserController {
     }
 
 
-    @PostMapping("/weather/subscribe")
-    public String subscribeCity() {
-
-        return "";
+    @PostMapping("/weather/subscribe/{city_name}")
+    public String subscribeCity(@PathVariable String city_name) {
+        AuthUser user = sessionUser.getUser();
+        cityDao.subscribeCity(user.getId(), city_name);
+        return "redirect:/city/list";
     }
 
 //    @GetMapping("/user/image/{username:.+}")

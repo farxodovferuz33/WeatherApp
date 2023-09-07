@@ -3,6 +3,7 @@ package org.example.spring.dao;
 import lombok.NonNull;
 import org.example.spring.domain.AuthUser;
 import org.example.spring.domain.City;
+import org.example.spring.domain.SubscribedCity;
 import org.example.spring.domain.Weather;
 import org.example.spring.dto.CityDTO;
 import org.example.spring.dto.WeatherDTO;
@@ -103,6 +104,27 @@ public class CityDao {
         var keyHolder = new GeneratedKeyHolder();
         namedParameterJdbcTemplate.update(sql, paramSource, keyHolder, new String[]{"city_id"});
         return (Integer) Objects.requireNonNull(keyHolder.getKeys()).get("city_id");
+    }
+
+    public Integer subscribeCity(Long id, String cityName) {
+        var sql = "insert into spring_jdbc.subscribedcities(user_id, city_name) values(:user_id, :city_name)";
+        var paramSource = new MapSqlParameterSource()
+                .addValue("user_id", id)
+                .addValue("city_name", cityName);
+        var keyHolder = new GeneratedKeyHolder();
+        namedParameterJdbcTemplate.update(sql, paramSource, keyHolder, new String[]{"id"});
+        return (Integer) Objects.requireNonNull(keyHolder.getKeys()).get("id");
+    }
+
+    public boolean checkSubscribedCity(int user_id, String cityName) {
+        var sql = "select * from spring_jdbc.subscribedcities where user_id = :user_id and city_name = :city_name";
+        var paramSource = new MapSqlParameterSource()
+                .addValue("user_id", user_id)
+                .addValue("city_name", cityName);
+
+        var mapper = new BeanPropertyRowMapper<SubscribedCity>();
+        SubscribedCity subscribedCity = namedParameterJdbcTemplate.queryForObject(sql, paramSource, mapper);
+        return subscribedCity != null;
     }
 
 
