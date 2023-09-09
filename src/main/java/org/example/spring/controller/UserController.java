@@ -5,6 +5,7 @@ import org.example.spring.SessionUser;
 import org.example.spring.dao.AuthUserDao;
 import org.example.spring.dao.CityDao;
 import org.example.spring.domain.AuthUser;
+import org.example.spring.domain.SubscribedCity;
 import org.example.spring.domain.Weather;
 import org.example.spring.dto.UserRegisterDTO;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -54,6 +55,17 @@ public class UserController {
         return "home";
     }
 
+
+    @GetMapping("/city/subscribedCities")
+    public ModelAndView subscribedCities() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("subscribedCities");
+        Long id = sessionUser.getId();
+        List<SubscribedCity> subscribedCities = cityDao.getSubscribedCities(id);
+        modelAndView.addObject("cities", subscribedCities);
+        return modelAndView;
+    }
+
     @GetMapping("/auth/register")
     public String registerPage(Model model) {
         model.addAttribute("dto", new UserRegisterDTO());
@@ -92,6 +104,8 @@ public class UserController {
         cityDao.subscribeCity(user.getId(), city_name);
         return "redirect:/city/list";
     }
+
+
 
 //    @GetMapping("/user/image/{username:.+}")
 //    public ResponseEntity<Resource> downloadPage(@PathVariable String username) {

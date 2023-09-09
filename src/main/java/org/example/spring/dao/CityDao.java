@@ -127,6 +127,14 @@ public class CityDao {
         return subscribedCity != null;
     }
 
+    public List<SubscribedCity> getSubscribedCities(Long id) {
+        var sql = "select * from spring_jdbc.subscribedcities where user_id = :id";
+        var paramSource = new MapSqlParameterSource()
+                .addValue("id", id);
+        var mapper = BeanPropertyRowMapper.newInstance(SubscribedCity.class);
+        return namedParameterJdbcTemplate.query(sql, paramSource, mapper);
+    }
+
 
 //    public Optional<AuthUser> findByUsername(@NonNull String username) {
 //        var sql = "select * from spring_jdbc.authuser t where t.username = :username and active = true";
