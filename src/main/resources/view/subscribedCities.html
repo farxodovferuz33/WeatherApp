@@ -20,14 +20,14 @@
         </tr>
         </thead>
 
-<!--        <tbody class="table table-primary">-->
-<!--        <tr th:each="city : ${cities}">-->
-<!--            <td th:text="${city.getCity_name()}"></td>-->
-<!--            <td>-->
-<!--                <a th:href="@{/weather/city/{id}(id=${city.getCity_name()})}" class="btn btn-warning">Weather</a>-->
-<!--            </td>-->
-<!--        </tr>-->
-<!--        </tbody>-->
+        <tbody class="table table-primary">
+        <tr th:each="city : ${cities}">
+            <td th:text="${city.getCity_name()}"></td>
+            <td>
+                <a th:href="@{/weather/city/{id}(id=${city.getCity_id()})}" class="btn btn-warning">Weather</a>
+            </td>
+        </tr>
+        </tbody>
 
     </table>
 </div>

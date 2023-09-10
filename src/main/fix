@@ -1,0 +1,11 @@
+one user can only subscribe to city only once
+unsubscribe
+do not display subscribe button in city list if user already subscribed instead put unsubscribe button
+users can check weather only after subscribing to cities
+show only daily weather to main table of cities without subscription
+
+securing urls weather(only subscribed users) and admins(user role is only admin)
+search cities
+
+delete automatically before yesterdays weather data
+add automatically weather if not added as before day same weather

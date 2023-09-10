@@ -12,10 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
@@ -98,11 +95,11 @@ public class UserController {
     }
 
 
-    @PostMapping("/weather/subscribe/{city_name}")
-    public String subscribeCity(@PathVariable String city_name) {
+    @PostMapping("/weather/subscribe/{city_name}/{city_id}")
+    public String subscribeCity(@PathVariable String city_name, @PathVariable Integer city_id) {
         AuthUser user = sessionUser.getUser();
-        cityDao.subscribeCity(user.getId(), city_name);
-        return "redirect:/city/list";
+        cityDao.subscribeCity(user.getId(), city_name, city_id);
+        return "redirect:/city/subscribedCities";
     }
 
 

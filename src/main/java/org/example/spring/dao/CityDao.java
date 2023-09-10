@@ -106,11 +106,12 @@ public class CityDao {
         return (Integer) Objects.requireNonNull(keyHolder.getKeys()).get("city_id");
     }
 
-    public Integer subscribeCity(Long id, String cityName) {
-        var sql = "insert into spring_jdbc.subscribedcities(user_id, city_name) values(:user_id, :city_name)";
+    public Integer subscribeCity(Long id, String cityName, Integer cityId) {
+        var sql = "insert into spring_jdbc.subscribedcities(user_id, city_name, city_id) values(:user_id, :city_name, :city_id)";
         var paramSource = new MapSqlParameterSource()
                 .addValue("user_id", id)
-                .addValue("city_name", cityName);
+                .addValue("city_name", cityName)
+                .addValue("city_id", cityId);
         var keyHolder = new GeneratedKeyHolder();
         namedParameterJdbcTemplate.update(sql, paramSource, keyHolder, new String[]{"id"});
         return (Integer) Objects.requireNonNull(keyHolder.getKeys()).get("id");
