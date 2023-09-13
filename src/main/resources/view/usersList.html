@@ -37,9 +37,7 @@
                 <form th:if="${user.isActive()}" th:action="@{/admin/deactivate/user(id=${user.getId()})}" method="post">
                     <button th:text="#{deact}"  type="submit" class="btn btn-danger">DEACTIVATE</button>
                 </form>
-                <a class="btn btn-outline-warning" href="/admin/users/edit">Edit</a>||
-                <a class="btn btn-warning" href="/admin/users/details">User Details</a>||
-                <a class="btn btn-primary" href="/admin/users/cities">User cities</a>
+                <a class="btn btn-warning bg-light" href="/admin/users/details">User Details</a>
             </td>
         </tr>
         </tbody>

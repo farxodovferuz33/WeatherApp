@@ -23,8 +23,11 @@
         <tbody class="table table-primary">
         <tr th:each="city : ${cities}">
             <td th:text="${city.getCity_name()}"></td>
-            <td>
+            <td class="d-flex">
                 <a th:href="@{/weather/city/{id}(id=${city.getCity_id()})}" class="btn btn-warning">Weather</a>
+                <form method="post" th:action="@{/weather/city/unsubscribe/{id}(id=${city.getCity_id()})}">
+                    <button type="submit" class="btn btn-warning">Unsubscribe</button>
+                </form>
             </td>
         </tr>
         </tbody>

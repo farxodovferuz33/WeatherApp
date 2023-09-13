@@ -19,6 +19,7 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping("/admin")
+//@PreAuthorize("hasRole('ADMIN')")
 public class AdminController {
     private final AuthUserDao authUserDao;
     private final CityDao cityDao;

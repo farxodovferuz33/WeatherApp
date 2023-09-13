@@ -98,11 +98,19 @@ public class UserController {
     @PostMapping("/weather/subscribe/{city_name}/{city_id}")
     public String subscribeCity(@PathVariable String city_name, @PathVariable Integer city_id) {
         AuthUser user = sessionUser.getUser();
+
         cityDao.subscribeCity(user.getId(), city_name, city_id);
         return "redirect:/city/subscribedCities";
     }
 
+// /weather/city/unsubscribe/{id}(id=${city.getCity_id()})
 
+    @PostMapping("/weather/city/unsubscribe/{city_id}")
+    public String subscribeCity(@PathVariable Integer city_id) {
+        AuthUser user = sessionUser.getUser();
+        cityDao.unsubscribeCity(user.getId(), city_id);
+        return "redirect:/city/subscribedCities";
+    }
 
 //    @GetMapping("/user/image/{username:.+}")
 //    public ResponseEntity<Resource> downloadPage(@PathVariable String username) {

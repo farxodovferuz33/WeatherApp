@@ -107,14 +107,26 @@ public class CityDao {
     }
 
     public Integer subscribeCity(Long id, String cityName, Integer cityId) {
-        var sql = "insert into spring_jdbc.subscribedcities(user_id, city_name, city_id) values(:user_id, :city_name, :city_id)";
-        var paramSource = new MapSqlParameterSource()
-                .addValue("user_id", id)
-                .addValue("city_name", cityName)
-                .addValue("city_id", cityId);
-        var keyHolder = new GeneratedKeyHolder();
-        namedParameterJdbcTemplate.update(sql, paramSource, keyHolder, new String[]{"id"});
-        return (Integer) Objects.requireNonNull(keyHolder.getKeys()).get("id");
+
+        var checkSql = "select * from spring_jdbc.subscribedcities where user_id = :id and city_name = :city_name";
+
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource().addValue("id", id).addValue("city_name", cityName);
+
+        List<SubscribedCity> query = namedParameterJdbcTemplate.query(checkSql, parameterSource, BeanPropertyRowMapper.newInstance(SubscribedCity.class));
+        System.out.println(query);
+
+        if (query.isEmpty()){
+            var sql = "insert into spring_jdbc.subscribedcities(user_id, city_name, city_id) values(:user_id, :city_name, :city_id)";
+            var paramSource = new MapSqlParameterSource()
+                    .addValue("user_id", id)
+                    .addValue("city_name", cityName)
+                    .addValue("city_id", cityId);
+            var keyHolder = new GeneratedKeyHolder();
+            namedParameterJdbcTemplate.update(sql, paramSource, keyHolder, new String[]{"id"});
+            return (Integer) Objects.requireNonNull(keyHolder.getKeys()).get("id");
+        }else return null;
+
+
     }
 
     public boolean checkSubscribedCity(int user_id, String cityName) {
@@ -134,6 +146,14 @@ public class CityDao {
                 .addValue("id", id);
         var mapper = BeanPropertyRowMapper.newInstance(SubscribedCity.class);
         return namedParameterJdbcTemplate.query(sql, paramSource, mapper);
+    }
+
+    public void unsubscribeCity(Long id, Integer cityId) {
+        var sql = "delete from spring_jdbc.subscribedcities where user_id = :id and city_id = :city_id";
+        var paramSource = new MapSqlParameterSource()
+                .addValue("id", id)
+                .addValue("city_id", cityId);
+        namedParameterJdbcTemplate.update(sql, paramSource);
     }
 
 
