@@ -1,7 +1,6 @@
 users can check weather only after subscribing to cities
-show only daily weather to main table of cities without subscription
-weather issue in cities same dates not accepting cuz date is unique
 
+show only daily weather to main table of cities without subscription
 securing urls weather(only subscribed users) and admins(user role is only admin)
 search cities
 

@@ -1,8 +1,11 @@
 package org.example.spring.controller;
 
+import org.example.spring.dao.AdminDAO;
 import org.example.spring.dao.AuthUserDao;
 import org.example.spring.dao.CityDao;
+import org.example.spring.domain.AuthUser;
 import org.example.spring.domain.City;
+import org.example.spring.domain.SubscribedCity;
 import org.example.spring.domain.Weather;
 import org.example.spring.dto.CityDTO;
 import org.example.spring.dto.WeatherDTO;
@@ -23,10 +26,12 @@ import java.util.Optional;
 public class AdminController {
     private final AuthUserDao authUserDao;
     private final CityDao cityDao;
+    private final AdminDAO adminDAO;
 
-    public AdminController(AuthUserDao authUserDao, CityDao cityDao) {
+    public AdminController(AuthUserDao authUserDao, CityDao cityDao, AdminDAO adminDAO) {
         this.authUserDao = authUserDao;
         this.cityDao = cityDao;
+        this.adminDAO = adminDAO;
     }
 
     @GetMapping
@@ -111,4 +116,27 @@ public class AdminController {
         return "redirect:/admin/weather/city/" + i;
     }
 
+    @GetMapping("/users/details/{id}")
+    public String userDetail(@PathVariable Long id, Model model) {
+        List<SubscribedCity> cities = cityDao.getSubscribedCities(id);
+        authUserDao.findById(id).ifPresent((authUser)->{
+            model.addAttribute("user", authUser);
+        });
+        model.addAttribute("cities", cities);
+        return "userdetail";
+    }
+
+    @PostMapping("/deactivate/user")
+//    @PreAuthorize("hasRole('ADMIN')")
+    public String deactivateUser(@RequestParam("id") Long id) {
+        adminDAO.deactivate(id);
+        return "redirect:/admin/users/list";
+    }
+
+    @PostMapping("/activate/user")
+//    @PreAuthorize("hasRole('ADMIN')")
+    public String activateUser(@RequestParam("id") Long id) {
+        adminDAO.activate(id);
+        return "redirect:/admin/users/list";
+    }
 }

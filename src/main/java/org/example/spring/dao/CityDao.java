@@ -47,6 +47,10 @@ public class CityDao {
     }
 
     public boolean deleteCity(int id) {
+        var sql1 = "delete from spring_jdbc.subscribedcities where city_id = :id";
+
+        namedParameterJdbcTemplate.update(sql1, new MapSqlParameterSource().addValue("id", id));
+
         var sql = "delete from spring_jdbc.City where id = :id";
         var paramSource = new MapSqlParameterSource()
                 .addValue("id", id);
@@ -83,10 +87,11 @@ public class CityDao {
     }
 
     public Integer deleteWeather(int id) {
+
+
         var sql = "delete from spring_jdbc.weather where id = :id";
         var paramSource = new MapSqlParameterSource()
                 .addValue("id", id);
-
         var keyHolder = new GeneratedKeyHolder();
         namedParameterJdbcTemplate.update(sql, paramSource, keyHolder, new String[]{"city_id"});
         return (Integer) Objects.requireNonNull(keyHolder.getKeys()).get("city_id");
@@ -155,6 +160,8 @@ public class CityDao {
                 .addValue("city_id", cityId);
         namedParameterJdbcTemplate.update(sql, paramSource);
     }
+
+
 
 
 //    public Optional<AuthUser> findByUsername(@NonNull String username) {

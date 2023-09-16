@@ -32,7 +32,6 @@
                 th:action="@{/weather/subscribe/{city_name}/{city_id}(city_name=${city.getName()}, city_id=${city.getId()})}" method="post">
                     <button type="submit" class="btn btn-success">Subscribe</button>
                 </form>
-                <a th:href="@{/weather/city/{id}(id=${city.getId()})}" class="btn btn-warning">Weather</a>
             </td>
         </tr>
         </tbody>

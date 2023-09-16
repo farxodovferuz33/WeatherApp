@@ -49,4 +49,16 @@ public class AuthUserDao {
             return Optional.empty();
         }
     }
+
+    public Optional<AuthUser> findById(Long id) {
+        var sql = "select * from spring_jdbc.authuser t where t.id = :id and active = true";
+        var paramSource = new MapSqlParameterSource().addValue("id", id);
+        var rowMapper = BeanPropertyRowMapper.newInstance(AuthUser.class);
+        try {
+            var authUser = namedParameterJdbcTemplate.queryForObject(sql, paramSource, rowMapper);
+            return Optional.of(authUser);
+        } catch (Exception e) {
+            return Optional.empty();
+        }
+    }
 }
